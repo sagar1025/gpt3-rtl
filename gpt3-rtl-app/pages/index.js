@@ -1,25 +1,15 @@
-import Link from 'next/link'
+import 'bootstrap/dist/css/bootstrap.css'
+import  {Row, Container} from 'react-bootstrap';
 
-function Index({ stars }) {
+function Index() {
   return (
-    <div>
-      <p>Next.js has {stars} ⭐️</p>
-      <Link href="/preact-stars">
-        <a>How about preact?</a>
-      </Link>
-    </div>
+    <Container fluid>
+      <Row>
+      <p>Next.js has ⭐️</p>
+      </Row>
+      
+    </Container>
   )
-}
-
-export async function getStaticProps() {
-  const res = await fetch('https://api.github.com/repos/vercel/next.js')
-  const json = await res.json()
-
-  return {
-    props: {
-      stars: json.stargazers_count,
-    },
-  }
 }
 
 export default Index
