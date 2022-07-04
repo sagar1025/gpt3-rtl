@@ -13,5 +13,5 @@ Builds the app for production.
 Runs the built app in production mode.
 
 
-`cd gpt3-rtl--app`
+`cd gpt3-rtl-app`
 `yarn dev`
