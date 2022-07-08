@@ -12,7 +12,7 @@ const Index = () => {
       model: "code-davinci-002",
       prompt: `#Write Unit Tests for each of the following Test Cases given a React Component.\nTest Cases: \nBoth credentials is incorrect.\nemail is correct, but password is incorrect.\nemail is incorrect, but password is correct.\n\nReact Component:\n${componentCode}\n\nUnit Tests:\n`,
       temperature: 0,
-      max_tokens: 20,
+      max_tokens: 2500,
       top_p: 1,
       frequency_penalty: 0,
       presence_penalty: 0,
