@@ -1,41 +1,42 @@
 import {useState} from 'react';
 import 'bootstrap/dist/css/bootstrap.css'
-import  {Row, Container, Navbar, FloatingLabel, Form, Button, Label} from 'react-bootstrap';
-const { Configuration, OpenAIApi } = require("openai");
+import  {Row, Container, Navbar, Form, Button} from 'react-bootstrap';
+
 
 const Index = () => {
-  const configuration = new Configuration({
-    apiKey: process.env.OPENAI_API_KEY,
-  });
-  const openai = new OpenAIApi(configuration);
-
   const [hasResponse, setHasResponse] = useState('');
   const [componentCode, setComponentCode] = useState('');
 
   const getResponse = async() => {
-    const response = await openai.createCompletion({
+    const data = {
       model: "code-davinci-002",
       prompt: `#Write Unit Tests for each of the following Test Cases given a React Component.\nTest Cases: \nBoth credentials is incorrect.\nemail is correct, but password is incorrect.\nemail is incorrect, but password is correct.\n\nReact Component:\n${componentCode}\n\nUnit Tests:\n`,
       temperature: 0,
-      max_tokens: 2500,
+      max_tokens: 20,
       top_p: 1,
       frequency_penalty: 0,
-      presence_penalty: 0,    
+      presence_penalty: 0,
+    };
+    
+    const response = await fetch('https://api.openai.com/v1/completions',{
+      method: 'POST',
+      headers: {
+        'Authorization': 'Bearer ' + process.env.NEXT_PUBLIC_OPENAI_API_KEY,
+        'Content-Type': 'application/json'
       },
-      {
-        headers: {
-          "Authorization": `Bearer ${openai.apiKey}`,
-        },
-      }
-    );
-console.log(response);
+      body: JSON.stringify(data) 
+    });
+
     return response;
   }
 
   const handleSubmit = (e) => {
     e && e.preventDefault();
-    const resp = getResponse();
-    setHasResponse(resp);
+    const resp = getResponse()
+    .then((resp) => resp.json())
+    .then((data) => {
+      setHasResponse(data.choices[0].text)
+    });
   }
 
   return (
@@ -55,10 +56,13 @@ console.log(response);
             <Button variant="primary" size="lg" type="submit" onClick={handleSubmit}>Submit</Button>
           </Form>
           {
-            hasResponse && hasResponse !== '' ?
-            <pre>
-              {hasResponse}
-            </pre>
+            hasResponse && hasResponse !== '' 
+            ?
+            <div className="mt-5">
+              <pre>
+                {hasResponse}
+              </pre>
+            </div>
             :
             null
           }
