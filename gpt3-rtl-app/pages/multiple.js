@@ -3,7 +3,7 @@ import 'bootstrap/dist/css/bootstrap.css'
 import  {Row, Container, Navbar, Form, Button} from 'react-bootstrap';
 
 
-const Index = () => {
+const Multiple = () => {
   const [hasResponse, setHasResponse] = useState('');
   const [componentCode, setComponentCode] = useState('');
   const [testcases, setTestCases] = useState();
@@ -12,9 +12,9 @@ const Index = () => {
 
     const data = {
       model: "code-davinci-002",
-      prompt: `#Write Unit Test for the following Test Case given a React Component.\nTest Case: \n${testcases}\n\nReact Component:\n${componentCode.trim()}\n\nUnit Test:\n`,
+      prompt: `#Write Unit Tests for each of the following Test Cases given a React Component.\nTest Cases: \n${testcases}n\nReact Component:\n${componentCode.trim()}\n\nUnit Tests:\n`,
       temperature: 0,
-      max_tokens: 500,
+      max_tokens: 2000,
       top_p: 1,
       frequency_penalty: 0,
       presence_penalty: 0,
@@ -54,8 +54,8 @@ const Index = () => {
       <Row className="mt-4 mx-5">
         <Container>
           <Form>
-            <label className="mb-3"> Test Case</label>
-            <Form.Control style={{ marginBottom: '30px' }} type="text" onChange={(e)=> setTestCases(e.target.value)}/>
+            <label className="mb-3"> Test Cases</label>
+            <Form.Control as="textarea" style={{ height: '150px', marginBottom: '30px' }} type="text" onChange={(e)=> setTestCases(e.target.value)}/>
             <label className="mb-3"> The Component</label>
             <Form.Control as="textarea" style={{ height: '500px' }} onChange={(e)=> setComponentCode(e.target.value)}/>
             <Button variant="primary" size="lg" type="submit" onClick={handleSubmit} className="mt-4">Submit</Button>
@@ -64,7 +64,7 @@ const Index = () => {
             hasResponse && hasResponse !== '' 
             ?
             <div className="mt-5">
-              <h4>The unit test</h4>
+              <h4>The unit tests</h4>
               <pre>
                 {hasResponse}
               </pre>
@@ -78,4 +78,4 @@ const Index = () => {
   )
 }
 
-export default Index
+export default Multiple
