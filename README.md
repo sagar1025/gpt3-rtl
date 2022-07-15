@@ -1,5 +1,5 @@
 # gpt3-rtl
-Write Unit tests using GPT3.
+Generate Unit tests in React Testing Library using GPT3.
 
 `yarn dev`
 Starts the development server.
